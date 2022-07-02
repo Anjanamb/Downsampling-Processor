@@ -10,8 +10,6 @@ module statemachine(input [15:0] instruction,
 					output reg [1:0] PC_control,
 					output reg write_DRAM,
 					output reg start_Tx
-					//input enable_processor,
-					//output wire [5:0] LED
 					);
 		
 							
@@ -19,7 +17,6 @@ reg [7:0] state;
 reg [3:0] source_register;
 reg [2:0] destination_register;
 reg [3:0] opcode;
-//assign LED = state[5:0];
 
 initial
 begin

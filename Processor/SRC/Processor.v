@@ -1,14 +1,11 @@
 module Processor(input wire clock,
                  input wire [15:0] IRAM_data,
 		         input wire [7:0] DRAM_input_data,
-			     //input wire enable_processor,
 			     output wire [7:0] IRAM_address,
 			     output wire [15:0] DRAM_address_processor,
 			     output wire [7:0] DRAM_output_data,					  
 			     output wire write_DRAM,				  
 			     output wire start_Tx
-			     //output wire [5:0] LED,
-			     //output wire [7:0] AC_LED
 			     );
 					  
 wire SR_enable;
@@ -47,7 +44,6 @@ wire Z_out;
 					  
 statemachine statemachine(.instruction(instruction),
 						  .clock(clock),
-						  //.enable_processor(enable_processor),
 						  .load_instruction(load_instruction),
 						  .ALU_control(ALU_control),
 						  .select_source(select_source),
@@ -58,7 +54,6 @@ statemachine statemachine(.instruction(instruction),
 						  .MAR_control(MAR_control),
 						  .write_DRAM(write_DRAM),
 						  .start_Tx(start_Tx)
-						  //.LED(LED)
 						  );	
 			 
 IR IR(.clock(clock),
@@ -71,7 +66,6 @@ ALU ALU(.B(Bus_to_B),
     .AC_out(AC_to_Bus),
 	    .Z_out(Z_out),
 	    .instruction(instruction),
-	    //.AC_LED(AC_LED),
 	    .clock(clock));
 		
 Bus Bus(.AC_in(AC_to_Bus),

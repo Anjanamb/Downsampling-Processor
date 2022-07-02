@@ -2,7 +2,6 @@ module ALU(   input wire [15:0] B, // Bus 16bit
 			  input wire [3:0] ALU_control, //Control signal 4bit
 			  input wire [15:0] instruction, 
 			  output wire [15:0] AC_out, //Acculumator 16bit
-			  //output wire [7:0] AC_LED,
 			  output wire Z_out, //for flag
 			  input wire clock);
 
@@ -11,7 +10,6 @@ reg [11:0] load_constant;
 reg Z;
 assign AC_out = AC;
 assign Z_out = Z;
-//assign AC_LED = AC[7:0];
 
 initial
 begin
