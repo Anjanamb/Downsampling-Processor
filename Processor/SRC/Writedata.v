@@ -4,17 +4,14 @@ module Writedata(input wren,
                  input wire [7:0] IRAM_address
                  );
 
-//reg [7:0] Inputdata;
 integer file;
-reg [3:0] Check;
-//assign data=Inputdata;
-//initial begin    
-    //file = $fopen("output.txt","w");    
-//end
+reg [15:0] Check; 
+
 
 
 initial begin 
 Check=0;
+file = $fopen("C:\\Users\\anjan\\OneDrive\\Desktop\\New folder\\Downsampling-Processor\\Processor\\SRC\\output.txt","w");
 end
 
 always@(negedge clock)
@@ -22,16 +19,14 @@ begin
     case (wren)
         1:
         begin
-          Check=Check+1;
-          file = $fopen("output.txt","w");
-		  $fwrite(file,data);
-		  //initial
-		  $fclose(file);
+         if (IRAM_address == 80)
+          begin
+		   $fdisplay(file,"%d",data);
+		   Check=Check+1;
+		  end 
 		end
-	endcase
+	 endcase
 end
-
-
 
 //initial
 //$fclose(file);
