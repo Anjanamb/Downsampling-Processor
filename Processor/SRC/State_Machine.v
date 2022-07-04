@@ -13,14 +13,14 @@ module statemachine(input [15:0] instruction,
 					);
 		
 							
-reg [7:0] state;
+reg [4:0] state;
 reg [3:0] source_register;
 reg [2:0] destination_register;
 reg [3:0] opcode;
 
 initial
 begin
-	state = 8'b00010000; //start
+	state = 5'b10000; //start
 end
 
 always@(instruction)
@@ -33,7 +33,7 @@ end
 always@(negedge clock)
 begin
 	case(state)
-		8'b00010000: //start (16)
+		5'b10000: //start (16)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -45,10 +45,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010001; //fetch1							
+				state <= 5'b10001; //fetch1							
 			end
 			
-		8'b00010001: //fetch1 (17)
+		5'b10001: //fetch1 (17)
 			begin
 				load_instruction <= 1; //read IRAM
 				ALU_control <= 4'b0000;
@@ -60,10 +60,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010010; //fetch2
+				state <= 5'b10010; //fetch2
 			end
 			
-		8'b00010010: //fetch2 (18)
+		5'b10010: //fetch2 (18)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -75,10 +75,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= {4'b0000, opcode}; //loaded instruction
+				state <= {1'b0, opcode}; //loaded instruction
 			end
 			
-		8'b00000101: //add1 (5)
+		5'b00101: //add1 (5)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -90,10 +90,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010011; //add2
+				state <= 5'b10011; //add2
 			end
 		
-		8'b00010011: //add2 (19)
+		5'b10011: //add2 (19)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0001; // AC + Bus
@@ -105,10 +105,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010001; //fetch1
+				state <= 5'b10001; //fetch1
 			end
 			
-		8'b00000110: //sub1 (6)
+		5'b00110: //sub1 (6)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -120,10 +120,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010100; //add2
+				state <= 5'b10100; //add2
 			end
 		
-		8'b00010100: //sub2 (20)
+		5'b10100: //sub2 (20)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0010; // AC - Bus
@@ -135,10 +135,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010001; //fetch1
+				state <= 5'b10001; //fetch1
 			end
 			
-		8'b00000111: //mul1 (7)
+		5'b00111: //mul1 (7)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -150,10 +150,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010101; //mul2
+				state <= 5'b10101; //mul2
 			end
 			
-		8'b00010101: //mul2 (13)
+		5'b10101: //mul2 (13)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0011; // AC * Bus
@@ -165,10 +165,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010001; //fetch1
+				state <= 5'b10001; //fetch1
 			end
 			
-		8'b00001000: //div1 (8)
+		5'b01000: //div1 (8)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -180,10 +180,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010110; //div2
+				state <= 5'b10110; //div2
 			end
 			
-		8'b00010110: //div2 (22)
+		5'b10110: //div2 (22)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0100; // AC / Bus
@@ -195,10 +195,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010001; //fetch1
+				state <= 5'b10001; //fetch1
 			end
 			
-		8'b00000011: //copy (3)
+		5'b00011: //copy (3)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -210,10 +210,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010111; //copy2
+				state <= 5'b10111; //copy2
 			end
 			
-		8'b00010111: //copy2 (23)
+		5'b10111: //copy2 (23)
 			begin
 				load_instruction <= 0;
 				if (destination_register == 3'b001) //If the destination is AC
@@ -234,10 +234,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010001; //fetch1
+				state <= 5'b10001; //fetch1
 			end
 			
-		8'b00001100: //loadk (12)
+		5'b01100: //loadk (12)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0110; //copy constant(from instruction) to the AC
@@ -249,10 +249,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010001; //fetch1
+				state <= 5'b10001; //fetch1
 			end
 			
-		8'b00000100: //jump (4)
+		5'b00100: //jump (4)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -264,10 +264,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010001; //fetch1
+				state <= 5'b10001; //fetch1
 			end
 			
-		8'b00001010: //inc (10)
+		5'b01010: //inc (10)
 			begin
 				load_instruction <= 0;
 				if (source_register == 4'b0001) //If the source register is AC
@@ -285,10 +285,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010001; //fetch1
+				state <= 5'b10001; //fetch1
 			end
 			
-		8'b00001011: //dec (11)
+		5'b01011: //dec (11)
 			begin
 				load_instruction <= 0;
 				if (source_register == 4'b0001) //If the source register is AC
@@ -306,10 +306,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010001; //fetch1
+				state <= 5'b10001; //fetch1
 			end
 			
-		8'b00001001: //clr (9)
+		5'b01001: //clr (9)
 			begin
 				load_instruction <= 0;
 				if (source_register == 4'b0001) //If the source register is AC
@@ -327,10 +327,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010001; //fetch1
+				state <= 5'b10001; //fetch1
 			end
 			
-		8'b00000001: //load1 (1)
+		5'b00001: //load1 (1)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -347,10 +347,10 @@ begin
 					MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00011000; //load2
+				state <= 5'b11000; //load2
 			end
 			
-		8'b00011000: //load2 (24)
+		5'b11000: //load2 (24)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -362,10 +362,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00010001; //fetch1
+				state <= 5'b10001; //fetch1
 			end
 			
-		8'b00000010: //store1 (2)
+		5'b00010: //store1 (2)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -382,10 +382,10 @@ begin
 					MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;
-				state <= 8'b00011001; //store2
+				state <= 5'b11001; //store2
 			end
 			
-		8'b00011001: //store2 (25)
+		5'b11001: //store2 (25)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -397,10 +397,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 1; // DRAM <= MDR
 				start_Tx <= 0;
-				state <= 8'b00010001; //fetch1
+				state <= 5'b10001; //fetch1
 			end
 		
-		8'b00000000: //nop (0)
+		5'b00000: //nop (0)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -412,10 +412,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 0;       
-				state <= 8'b00010001; //fetch1
+				state <= 5'b10001; //fetch1
 			end
 			
-		8'b00001111: //end (15)
+		5'b01111: //end (15)
 			begin
 				load_instruction <= 0;
 				ALU_control <= 4'b0000;
@@ -427,10 +427,10 @@ begin
 				MAR_control <= 2'b00;
 				write_DRAM <= 0;
 				start_Tx <= 1;        //indicate that the processing is done
-				state <= 8'b00001111; //end
+				state <= 5'b01111; //end
 			end
 			
-		default: state <= 8'b00010000; // start 
+		default: state <= 5'b10000; // start 
       endcase
 	end
 endmodule
