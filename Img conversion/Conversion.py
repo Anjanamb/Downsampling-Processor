@@ -1,5 +1,5 @@
 import cv2 as cv
-img = cv.imread("img.jpeg", cv.IMREAD_GRAYSCALE)
+img = cv.imread("img.jpg", cv.IMREAD_GRAYSCALE)
 imagedata = []
 for i in img:
     for j in i:

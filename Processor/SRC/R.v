@@ -10,6 +10,3 @@ value = bus_to_R;
 end
 
 endmodule
-
-
-

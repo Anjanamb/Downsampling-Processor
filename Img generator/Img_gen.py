@@ -13,7 +13,7 @@ for raw in range(128):
         index = raw*128+colum
         imge[raw][colum] = Binary[index]
 
-im_or = cv.imread("img.jpeg")
+im_or = cv.imread("img.jpg")
 cv.imshow('Original', im_or)
 cv.imshow('Downsample', imge)
 cv.waitKey(0)

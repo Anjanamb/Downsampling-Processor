@@ -10,6 +10,6 @@ module clock();
         end
     always 
     begin
-    #40 clk = ~clk;    
+    #40 clk = ~clk;    //80ns timeperiod(50Mhz Oscillator) 
     end
 endmodule
