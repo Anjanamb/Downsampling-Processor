@@ -14,6 +14,7 @@ for raw in range(128):
         imge[raw][colum] = Binary[index]
 
 im_or = cv.imread("img.jpg")
+cv.imwrite('128img.png', imge)
 cv.imshow('Original', im_or)
 cv.imshow('Downsample', imge)
 cv.waitKey(0)
