@@ -1,4 +1,4 @@
-# Downsampling Processor
+# Custom Image Downsampling Processor
 
 > A Verilog-based custom processor that performs low-pass filtering and downsampling (factor 2) of images, verified against Python-generated reference images using SSD (Sum of Squared Differences).
 
